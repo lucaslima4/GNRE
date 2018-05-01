@@ -10,7 +10,30 @@ Vale ressaltar que, devido à estrutura do sistema, o portal permite a emissão 
 
 ## Obrigatoriedades
 
+### Certificado digital
+
 Por se tratar da emissão de guias de imposto estadual, o portal solicita o uso de um Certificado Digital do tipo e-CNPJ válido para o funcionamento do Webservice. O certificado deve estar instalado na máquina que consumirá o serviço e será utilizado tanto no **Ambiente de Homologação** quanto no **Ambiente de Produção**.
 
-As requisições realizadas para a geração de Guias devem ter como emitente o mesmo CNPJ do certificado utilizado na conexão, além disso, é necessário solicitar a habilitação do uso do serviço através da [Página de Automação](http://www.gnre.pe.gov.br/gnre/portal/automacao.jsp) do portal, tanto para o **Ambiente de Homologação** quanto para o **Ambiente de Produção**.
+As requisições realizadas para a geração de Guias devem ter como emitente o mesmo CNPJ do certificado utilizado na conexão.
 
+### Habilitação do uso
+
+É necessário solicitar a habilitação do uso do serviço através da [Página de Automação](http://www.gnre.pe.gov.br/gnre/portal/automacao.jsp) do portal, tanto para o **Ambiente de Homologação** quanto para o **Ambiente de Produção**.
+
+## Estrutura do projeto
+
+O projeto é dividido em 3 arquivos principais, com suas funções:
+
+- **[Request.js](js/Request.js)**
+  - Função Request(_Url , soapAction , soapRequest , callback_) - Responsável pelas requisições via XMLHTTPRequest.
+  - Função Zero(_n_) - Função para o preenchimento de duas casas, com o acréscimo do 0 esquerdo.  
+- **[EnviaLote.js](js/EnviaLote.js)**
+  - ParseXML() - Parser do XML da Nota Fiscal
+  - EnviaLote(_Dados_) - Função para formar o XML (soapRequest) através das informações fornecidas em _Dados_
+  - EnviaLote_Callback(_xhr_) - Função que lida com o retorno da requisição
+- **[ConsultaLote.js](js/ConsultaLote.js)**
+  - ConsultaLote() - Responsável por formar o XML (soaprequest) para a consulta de um Lote
+  - ConsultaLote_Callback(_xhr_) - Função que lida com o retorno da requisição e analisa os dados, distribuindo-os em um objeto amigável.
+  - ConsultaLote_Parse(_Conteudo_) - Parser dos retornos de cada tipo de dados (Cabeçalho, Rodapé, Guia e Rejeição de Guia).
+  
+  
