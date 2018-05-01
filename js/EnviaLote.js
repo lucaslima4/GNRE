@@ -212,10 +212,18 @@ function EnviaLote(Dados){
                         Variavel += '["'+child+'"]';
                     });
                     
-                    Tag.innerHTML = eval(Variavel);
+                    try{
+                        Tag.innerHTML = eval(Variavel);
+                    }catch(e){
+                         console.warn("O campo '"+EnviaLote_Campos[e].Tag+"' solicitou uma variável inexistente: '"+Variavel+"'");
+                    }
 
                 }else if("Valor" in EnviaLote_Campos[e]){
-                    try{ Tag.innerHTML = eval(EnviaLote_Campos[e].Valor.toString()); }catch(e){}
+                    try{
+                        Tag.innerHTML = eval(EnviaLote_Campos[e].Valor.toString());
+                    }catch(e){
+                         console.warn("O campo '"+EnviaLote_Campos[e].Tag+"' solicitou uma variável inexistente: '"+EnviaLote_Campos[e].Valor+"'");
+                    }
                 }
                 
                 if("Parent" in EnviaLote_Campos[e]){
