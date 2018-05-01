@@ -1,0 +1,84 @@
+Legendas = {
+    "ConsultaLote" : {
+        "Situacao_Guia":{
+            "0":"Processada com sucesso",
+            "1":"Invalidada pelo Portal",
+            "2":"Invalidada pela UF",
+            "3":"Erro de comunicação"
+        },
+        "Periodo_Referencia":{
+            "0":"Mensal",
+            "1":"1a Quinzena",
+            "2":"2a Quinzena",
+            "3":"1o Decêndio",
+            "4":"2o Decêndio",
+            "5":"3o Decêndio"
+        },
+        "Ambiente":{
+            "0":"Produção",
+            "9":"Outro Ambiente"
+        },
+        "Contingencia":{
+            "0":"Guia gerada pela UF",
+            "1":"Guia gerada em contingencia"
+        },
+        "Tipo_Documento_Solicitante":{
+            "1":"CPF",
+            "2":"CNPJ",
+        },
+        "Tipo_Documento_Destinatario":{
+            "1":"CPF",
+            "2":"CNPJ",
+            "3":"IE"
+        },
+        "Tipo_Documento_Emitente":{
+            "1":"CPF",
+            "2":"CNPJ",
+            "3":"IE"
+        },
+        "Codigo_Receita":{
+            "100064":"ICMS Autuação Fiscal",
+            "100013":"ICMS Comunicação",
+            "100110":"ICMS Consumidor Final Não Contribuinte Outra UF por Apuração",
+            "100102":"ICMS Consumidor Final Não Contribuinte Outra UF por Operação",
+            "100145":"ICMS DeSTDA",
+            "150010":"ICMS Dívida Ativa",
+            "100021":"ICMS Energia Elétrica",
+            "100137":"ICMS Fundo Estadual de Combate à Pobreza por Apuração",
+            "100129":"ICMS Fundo Estadual de Combate à Pobreza por Operação",
+            "100056":"ICMS Importação",
+            "100072":"ICMS Parcelamento",
+            "100080":"ICMS Recolhimentos Especiais",
+            "100048":"ICMS Substituição Tributária por Apuração",
+            "100099":"ICMS Substituição Tributária por Operação",
+            "100030":"ICMS Transporte",
+            "500011":"Multa p/ infração à obrigação acessória",
+            "600016":"Taxa"
+        }
+    },
+    "EnvioLote":{
+         "Tipo_Documento_Origem":{
+            "01":"NOTA FISCAL AVULSA",
+            "02":"EXTRATO FRONTEIRAS",
+            "03":"REGISTRO DE NOTAS FRONTEIRAS",
+            "04":"DI - DECLARAÇÃO DE IMPORTAÇÃO",
+            "05":"DMI - DECLARAÇÃO DE MERCADORIAS IMPORTADAS",
+            "06":"DSI - DECLARAÇÃO SIMPLIFICADA DE IMPORTAÇÃO",
+            "07":"CONHECIMENTO DE TRANSPORTE RODOVIÁRIO",
+            "08":"CONHECIMENTO DE TRANSPORTE AÉREO",
+            "09":"IPVA - CÓDIGO RENAVAM",
+            "10":"NOTA FISCAL",
+            "11":"PROCESSO FISCAL",
+            "12":"TERMO DE INFRAÇÃO NO TRÂNSITO",
+            "13":"AUTO DE LANÇAMENTO",
+            "14":"DÍVIDA ATIVA",
+            "15":"CONSOLIDAÇÃO DE DÉBITOS",
+            "16":"NOTIFICAÇÃO FISCAL",
+            "17":"NÚMERO DO PARCELAMENTO",
+            "18":"DIRE - DECLARAÇÃO DE IMP DE REMESSA EXPRESSA",
+            "19":"NTS - NOTA DE TRIBUTAÇÃO SIMPLIFICADA",
+            "20":"CONHECIMENTO DE TRANSPORTE AQUAVIÁRIO DE CARGAS",
+            "21":"CONHECIMENTO DE TRANSPORTE"
+        }
+    }
+}
