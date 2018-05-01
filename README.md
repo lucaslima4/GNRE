@@ -33,7 +33,7 @@ Caso tudo ocorra bem, o sistema retorna o número do Lote enviado para consulta 
 
 Na consulta é enviado o número do Lote recebido para checagem das informações da Guia através de um XML. O retorno dessa requisição é um XML com a situação da Guia, informando se ela já foi processada.
 
-Se o processamento já ocorreu, pode ser que as Guias enviadas naquele Lote tenham sido aprovadas ou reprovadas. Em ambos os casos, o portal retorna, dentro do XML, os dados da Guia sequenciados, contendo os dados da Guia ou os dados da Reijeção.
+Se o processamento já ocorreu, pode ser que as Guias enviadas naquele Lote tenham sido aprovadas ou reprovadas. Em ambos os casos, o portal retorna, dentro do XML, os dados da Guia sequenciados, contendo os dados da Guia ou os dados da Rejeição.
 
 ## Estrutura do projeto
 
@@ -50,5 +50,14 @@ O projeto é dividido em 3 arquivos principais, com suas funções:
   - ConsultaLote() - Responsável por formar o XML (soaprequest) para a consulta de um Lote
   - ConsultaLote_Callback(_xhr_) - Função que lida com o retorno da requisição e analisa os dados, distribuindo-os em um objeto amigável.
   - ConsultaLote_Parse(_Conteudo_) - Parser dos retornos de cada tipo de dados (Cabeçalho, Rodapé, Guia e Rejeição de Guia).
+  
+O projeto também possui arquivos JSON que contêm as informações para parseamento e identificação dos dados:
+  
+- **[ConsultaLote_Campos.json](json/ConsultaLote_Campos.json)**
+  - Contém os dados dos Campos retornados na Consulta do Lote, permitindo a identificação dos dados sequenciados.
+- **[ConsultaLote_Legendas.json](json/ConsultaLote_Legendas.json)**
+  - Legendas e Identificações das informações da Guia.
+  
+  
   
   
