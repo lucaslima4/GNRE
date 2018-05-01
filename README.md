@@ -20,6 +20,21 @@ As requisições realizadas para a geração de Guias devem ter como emitente o 
 
 É necessário solicitar a habilitação do uso do serviço através da [Página de Automação](http://www.gnre.pe.gov.br/gnre/portal/automacao.jsp) do portal, tanto para o **Ambiente de Homologação** quanto para o **Ambiente de Produção**.
 
+## Funcionamento do Webservice
+
+O Webservice disponibilizado tem duas principais funções para a emissão de Guias: o Envio das informações, e a Consulta da Guia.
+
+#### Envio
+Na primeira etava são enviadas todas as informações para a emissão da Guia através de um XML que pode conter 1 ou mais guias a serem processadas. Esse payload é chamado de Lote. O retorno dessa requisição é a situação de processamento do lote, ou seja, se ele foi aprovado ou se há algum erro com as informações no XML.
+
+Caso tudo ocorra bem, o sistema retorna o número do Lote enviado para consulta posterior. 
+
+#### Consulta
+
+Na consulta é enviado o número do Lote recebido para checagem das informações da Guia através de um XML. O retorno dessa requisição é um XML com a situação da Guia, informando se ela já foi processada.
+
+Se o processamento já ocorreu, pode ser que as Guias enviadas naquele Lote tenham sido aprovadas ou reprovadas. Em ambos os casos, o portal retorna, dentro do XML, os dados da Guia sequenciados, contendo os dados da Guia ou os dados da Reijeção.
+
 ## Estrutura do projeto
 
 O projeto é dividido em 3 arquivos principais, com suas funções:
