@@ -55,9 +55,43 @@ O projeto também possui arquivos JSON que contêm as informações para parseam
   
 - **[ConsultaLote_Campos.json](json/ConsultaLote_Campos.json)**
   - Contém os dados dos Campos retornados na Consulta do Lote, permitindo a identificação dos dados sequenciados.
-- **[ConsultaLote_Legendas.json](json/ConsultaLote_Legendas.json)**
+- **[Legendas.json](json/Legendas.json)**
   - Legendas e Identificações das informações da Guia.
-  
+- **[Produtos.json](json/Produtos.json)**
+  - Identificação de todos os produtos.
+- **[Receitas.json](json/Receitas.json)**
+  - Identificação de todas as receitas.
+- **[Detalhamento_Receita.json](json/Detalhamento_Receita.json)**
+  - Identificação de todos os Detalhamentos de Receitas (podem ser solicitados de acordo com o Estado e a Receita selecionados)
+- **[EnviaLote_Campos.json](json/EnviaLote_Campos.json)**
+  - TAGs do XML que irão compor cada Guia.
+- **[EnviaLote_EstruturaUF.json](json/EnviaLote_EstruturaUF.json)**
+  - Todos os detalhes e obrigatoriedades de cada Estado e Receita.
+
+## Observações
+
+- É possível que, na emissão de certas guias, o sistema solicite Campos Extras diferentes dos listados no arquivo [EnviaLote_EstruturaUF.json](json/EnviaLote_EstruturaUF.json), uma vez que o portal da GNRE não disponibiliza todas as informações sobre os Campos Extras. Nesse caso, basta abrir o arquivo e incluir o campo solicitado no Array de **Campos_Adicionais** da Receita correspondente, da seguinte maneira:
+
+```json
+{"Codigo":"","Titulo":"","Tipo":"T","Valor":"Dados[Guia_Num].chNFe"}
+```
+Sendo ***Codigo***, o código solicitado pelo portal e o ***Valor***, sendo o valor a ser colocado dentro desse campo. A variável ***Titulo*** é opcional.
+
+- Dentro do arquivo [EnviaLote.js](js/EnviaLote.js), existem variáveis que estarão dentro do XML e que são compulsórias. Essas informações não podem ser obtidas automaticamente através do XML da Nota Fiscal, portanto, devem ser definidas de maneira manual. As variáveis são:
+
+  - produto
+    - Tipo do produto presente na NF (consulte [Produtos.json](json/Produtos.json) para detalhes e [EnviaLote_EstruturaUF.json](json/EnviaLote_EstruturaUF.json) para verificar a disponibilidade dos produtos em cada UF).
+  - receita
+    - Receita na qual se encaixa a operação da Guia (consulte [Legendas.json](json/Legendas.json) para detalhes e [EnviaLote_EstruturaUF.json](json/EnviaLote_EstruturaUF.json) para verificar a disponibilidade das receitas em cada UF).
+  - tipoDocOrigem
+    - Tipo do documento a ser enviado (consulte [Legendas.json](json/Legendas.json) para opções).
+  - convenio = "0";
+    - Campos não obrigatório, costuma ter valor 0;
+  - periodo
+    - Periodicidade de envio da Guia (consulte [Legendas.json](json/Legendas.json) para opções).
+
+
+
   
   
   
