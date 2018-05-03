@@ -75,7 +75,7 @@ function ConsultaLote_Callback(xhr){
 			var Serial = JSON.stringify(Valores);
 			Serial = BeautifyJSON(Serial);
 			with(document.getElementById('bloco_resposta'))
-                innerHTML = '<div class="bloco_header">'+http.getAllResponseHeaders().replace(/\n/gi,"<br>")+'</div>' + Serial + innerHTML;
+                innerHTML = '<div class="bloco_header">'+xhr.getAllResponseHeaders().replace(/\n/gi,"<br>")+'</div>' + Serial + innerHTML;
 			
 		}else{ //Se não houver um Resultado do lote
 			throw new Error("A consulta não retornou Resultados.");

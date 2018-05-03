@@ -1,5 +1,3 @@
-var Lote = new Object;
-
 function ParseXML(){
 
     /* Abrir XML da Nota Fiscal e parsear */
@@ -15,74 +13,69 @@ function ParseXML(){
     }
 
     var DadosXML = { ICMSTot:{}, ide:{}, emit:{enderEmit:{}}, dest:{enderDest:{}} };
-
+    var c,Child;
+    
     /*Pegar dados do Emitente*/
     var XMLEmit = XML.getElementsByTagName("emit");
     if(XMLEmit.length>0){
-        for(var c=0;c<XMLEmit[0].childNodes.length;c++){
-            var Child = XMLEmit[0].childNodes[c];
+        for(c=0;c<XMLEmit[0].childNodes.length;c++){
+            Child = XMLEmit[0].childNodes[c];
             if(Child.tagName!="enderEmit") DadosXML.emit[Child.tagName] = Child.innerHTML;
         }
         /* Pegar dados de endereço do Emitente */
         var enderEmit = XMLEmit[0].getElementsByTagName("enderEmit");
         if(enderEmit.length>0){
-            for(var c=0;c<enderEmit[0].childNodes.length;c++){
-                var Child = enderEmit[0].childNodes[c];
+            for(c=0;c<enderEmit[0].childNodes.length;c++){
+                Child = enderEmit[0].childNodes[c];
                 DadosXML.emit.enderEmit[Child.tagName] = Child.innerHTML;
             }
         }else{
             throw new Error("XML não contém o campo <enderEmit>");
-            return;
         }				
     }else{
         throw new Error("XML não contém o campo <emit>");
-        return;
     }
     /*Pegar dados do Destinatário*/
     var XMLDest = XML.getElementsByTagName("dest");
     if(XMLDest.length>0){
-        for(var c=0;c<XMLDest[0].childNodes.length;c++){
-            var Child = XMLDest[0].childNodes[c];
+        for(c=0;c<XMLDest[0].childNodes.length;c++){
+            Child = XMLDest[0].childNodes[c];
             if(Child.tagName!="enderDest") DadosXML.dest[Child.tagName] = Child.innerHTML;
         }
         /* Pegar dados de endereço do Destinatário */
         var enderDest = XMLDest[0].getElementsByTagName("enderDest");
         if(enderDest.length>0){
-            for(var c=0;c<enderDest[0].childNodes.length;c++){
-                var Child = enderDest[0].childNodes[c];
+            for(c=0;c<enderDest[0].childNodes.length;c++){
+                Child = enderDest[0].childNodes[c];
                 DadosXML.dest.enderDest[Child.tagName] = Child.innerHTML;
             }
         }else{
             throw new Error("XML não contém o campo <enderDest>");
-            return;
         }
     }else{
         throw new Error("XML não contém o campo <dest>");
-        return;
     }
 
     /*Pegar dados do IDE*/
     var XMLIde = XML.getElementsByTagName("ide");
     if(XMLIde.length>0){
-        for(var c=0;c<XMLIde[0].childNodes.length;c++){
-            var Child = XMLIde[0].childNodes[c];
+        for(c=0;c<XMLIde[0].childNodes.length;c++){
+            Child = XMLIde[0].childNodes[c];
             DadosXML.ide[Child.tagName] = Child.innerHTML;
         }
     }else{
         throw new Error("XML não contém o campo <ide>");
-        return;
     }
     
      /*Pegar dados do Total de valores*/
     var ICMSTot = XML.getElementsByTagName("ICMSTot");
     if(ICMSTot.length>0){
-        for(var c=0;c<ICMSTot[0].childNodes.length;c++){
-            var Child = ICMSTot[0].childNodes[c];
+        for(c=0;c<ICMSTot[0].childNodes.length;c++){
+            Child = ICMSTot[0].childNodes[c];
             DadosXML.ICMSTot[Child.tagName] = Child.innerHTML;
         }
     }else{
         throw new Error("XML não contém o campo <ICMSTot>");
-        return;
     }
 
     var chNFe = XML.getElementsByTagName("chNFe");
@@ -90,14 +83,10 @@ function ParseXML(){
         DadosXML.chNFe = chNFe[0].innerHTML;
     }else{
         throw new Error("XML não contém o campo <chNFe>");
-        return;
     }
-    console.log(DadosXML);
+
     EnviaLote([DadosXML]);
 }
-
-
-
 
 
 function EnviaLote(Dados){
@@ -166,17 +155,25 @@ function EnviaLote(Dados){
 
         var dataVencimento = AnoVenc+"-"+MesVenc+"-"+DiaVenc;
         var dataPagamento = AnoVenc+"-"+MesVenc+"-"+DiaVenc;
-
+        
+        var uf = Dados[Guia_Num].dest.enderDest.UF;
+        var tipoIdentificacaoEmitente = '1'; //Emitente possui CNPJ (1)
+        
         /* Variáveis selecionáveis */
                 
         var produto = "33";
         var receita = "100099";
         var tipoDocOrigem = "10"; //10 para Nota Fiscal
-        var uf = Dados[Guia_Num].dest.enderDest.UF;
-        var tipoIdentificacaoEmitente = '1'; //Emitente possui CNPJ (1)
         var convenio = "0";
         var periodo = "0"; //Período Mensal
-            
+    
+        /* Definir variável de Detalhamento de Receita  */
+        
+        if("Detalhamento_Receita" in EnviaLote_EstruturaUF[uf].Receitas[receita]){ //Se a receita exigir Detalhamento
+            //Escolher o Detalhamento de Receita que é um dos códigos disponíveis no Array: EnviaLote_EstruturaUF[uf].Receitas[receita].Detalhamento_Receita
+            var detalhamentoReceita = "";
+        }
+        
         /* Definir Códigos do Município */
         
         var municipioEmitente = Dados[Guia_Num].emit.enderEmit.cMun.substr(2);
@@ -198,14 +195,13 @@ function EnviaLote(Dados){
 
         for(var e=0;e<EnviaLote_Campos.length;e++){  //Enquanto houver campos para serem incluídos
 
-            if(!(EnviaLote_Campos[e].Tag in EnviaLote_Receitas[uf].Receitas[receita].Campos) ||
-               EnviaLote_Campos[e].Tag in EnviaLote_Receitas[uf].Receitas[receita].Campos && EnviaLote_Receitas[uf].Receitas[receita].Campos[EnviaLote_Campos[e].Tag] === true){
+            if(!(EnviaLote_Campos[e].Tag in EnviaLote_EstruturaUF[uf].Receitas[receita].Campos) ||
+               EnviaLote_Campos[e].Tag in EnviaLote_EstruturaUF[uf].Receitas[receita].Campos && EnviaLote_EstruturaUF[uf].Receitas[receita].Campos[EnviaLote_Campos[e].Tag] === true){
 
                 // Criar a Tag usando o NameSpace padrão
                 var Tag = document.createElementNS(Ns1,EnviaLote_Campos[e].Tag);
 
                 if("CampoXML" in EnviaLote_Campos[e]){
-                    console.log(EnviaLote_Campos[e].CampoXML);
                     var Variavel = 'Dados[Guia_Num]';
                     
                     EnviaLote_Campos[e].CampoXML.split(".").forEach(function(child){
@@ -213,7 +209,7 @@ function EnviaLote(Dados){
                     });
                     
                     try{
-                        Tag.innerHTML = eval(Variavel);
+                        if(eval(Variavel)) Tag.innerHTML = eval(Variavel);
                     }catch(e){
                          console.warn("O campo '"+EnviaLote_Campos[e].Tag+"' solicitou uma variável inexistente: '"+Variavel+"'");
                     }
@@ -238,27 +234,25 @@ function EnviaLote(Dados){
             }
         }
 
-        // Acrescentar campos extras exigidos pela Receita selecionada
+        // Acrescentar Campos Adicionais exigidos pela Receita selecionada
         
-        if("Campos_Adicionais" in EnviaLote_Receitas[uf].Receitas[receita]){
+        if("Campos_Adicionais" in EnviaLote_EstruturaUF[uf].Receitas[receita]){
         
-            for(var x=0;x<EnviaLote_Receitas[uf].Receitas[receita].Campos_Adicionais.length;x++){
-                var Campo_Adicional = EnviaLote_Receitas[uf].Receitas[receita].Campos_Adicionais[x];
-                if(Campo_Adicional.Uso === true){
-                    if("Valor" in Campo_Adicional){
-                        Tag = document.createElementNS(Ns1,"campoExtra");
+            for(var x=0;x<EnviaLote_EstruturaUF[uf].Receitas[receita].Campos_Adicionais.length;x++){
+                var Campo_Adicional = EnviaLote_EstruturaUF[uf].Receitas[receita].Campos_Adicionais[x];
+                if("Valor" in Campo_Adicional){
+                    Tag = document.createElementNS(Ns1,"campoExtra");
 
-                        with(campoExtra_Codigo = document.createElementNS(Ns1,"codigo")) innerHTML = Campo_Adicional.Codigo;
-                        Tag.appendChild(campoExtra_Codigo);
+                    with(campoExtra_Codigo = document.createElementNS(Ns1,"codigo")) innerHTML = Campo_Adicional.Codigo;
+                    Tag.appendChild(campoExtra_Codigo);
 
-                        with(campoExtra_Tipo = document.createElementNS(Ns1,"tipo")) innerHTML = Campo_Adicional.Tipo;
-                        Tag.appendChild(campoExtra_Tipo);
+                    with(campoExtra_Tipo = document.createElementNS(Ns1,"tipo")) innerHTML = Campo_Adicional.Tipo;
+                    Tag.appendChild(campoExtra_Tipo);
 
-                        with(campoExtra_Valor = document.createElementNS(Ns1,"valor")) innerHTML = eval(Campo_Adicional.Valor);
-                        Tag.appendChild(campoExtra_Valor);
+                    with(campoExtra_Valor = document.createElementNS(Ns1,"valor")) innerHTML = eval(Campo_Adicional.Valor);
+                    Tag.appendChild(campoExtra_Valor);
 
-                        Guia.getElementsByTagName('c39_camposExtras')[0].appendChild(Tag);
-                    }
+                    Guia.getElementsByTagName('c39_camposExtras')[0].appendChild(Tag);
                 }
             }
         }
@@ -304,6 +298,8 @@ function EnviaLote(Dados){
             Guia.removeChild(Guia.getElementsByTagName("c17_inscricaoEstadualEmitente")[0]);
         
     }
+    
+    console.log(XML);
     
     /* Serializar o XML e enviar a requisição */
     with(new XMLSerializer()) var soapRequest = serializeToString(XML);
