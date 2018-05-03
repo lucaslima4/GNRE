@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Requisição GNRE</title>
+		<script src="Geral.js" language="javascript"></script>
+		<script src="js/Request.js" language="javascript"></script>
+        
+        <!-- JSONs com informações para a ConsultaLote -->
+		<script src="json/ConsultaLote_Campos.json" type="text/javascript"></script>
+        <script src="json/Legendas.json" type="text/javascript"></script>
+        <script src="js/ConsultaLote.js" language="javascript"></script>
+        
+        <!-- JSONs com informações para a EnviaLote -->
+        <script src="json/EnviaLote_Campos.json" type="text/javascript"></script>
+        <script src="json/EnviaLote_EstruturaUF.json" type="text/javascript"></script>
+        <script src="json/Receitas.json" type="text/javascript"></script>
+        <script src="json/Produtos.json" type="text/javascript"></script>
+        <script src="js/EnviaLote.js" language="javascript"></script>
+
+        
+		<script language="javascript">
+			window.onerror = function(e){
+				document.getElementById('bloco_resposta').innerHTML += '<div class="erro">'+e+'</div>';
+			}
+		</script>
+		<style>
+			html,body{
+				margin:0px;
+				height:98%;
+			}
+			body{
+				font-family:Verdana, Geneva, sans-serif;
+				font-size:12px;
+			}
+            .estrutura{
+                min-width: 700px;
+                max-width: 1000px;
+                display: block;
+                margin: 0px auto;
+            }
+			.bloco_requisicao{
+				width:30%;
+				min-width:200px;
+				padding:1%;
+				border:1px solid #CCC;
+				float:left;
+				margin:0px 2%;
+			}
+			.bloco_resposta{
+				width:55%;
+				min-width:300px;
+				min-height:70%;
+				max-height:85%;
+				padding:1%;
+				border:1px solid #CCC;
+				float:left;
+				margin:0px 2%;
+				overflow:auto;
+			}
+			.erro{
+				padding:5px 1%;
+				background-color:#F30;
+				color:#FFF;
+				width:98%;
+				margin:5px 0px;
+			}
+			button{
+				padding:8px 1%;
+				background-color:#64AC13;
+				color:#FFF;
+				border:none;
+				cursor:pointer;
+				outline:none;
+				width:100%;
+			}
+			input,textarea{
+				padding:6px 1%;
+				width:98%;
+				border:1px dashed #CCC;
+				margin:6px 0px;
+			}
+			textarea{
+				height:200px;
+			}
+			.request_status{
+				padding:10px 1%;
+				width:98%;
+				text-align:center;
+				background-color:#E7E7E7;
+				border:1px solid #CCC;
+			}
+			.bloco_header{
+				width:98%;
+				padding:10px 1%;
+				margin:6px auto;
+				border:1px solid #CCC;
+                background-color: #E7E7E7;
+				font-family:"Courier New", Courier, monospace;
+			}
+			.json_string{
+				color:#009933;
+				font-weight:normal;
+				display:inline-block;
+			}
+			.json_sq_bracket{
+				color:#FC0;
+			}
+			.json_cr_bracket{
+				color:#F33;
+			}
+			.json_block{
+				padding-left:8px;
+			}
+			.json_number{
+				color:#C33;
+				font-weight:normal;
+				display:inline-block;
+			}
+            hr{
+                margin: 15px auto;
+                border: solid #CCC;
+                border-width: 0px 1px 1px 0px;
+                display: block;
+                clear: both;
+            }
+		</style>
+	</head>
+	<body>
+        <div class="estrutura">
+            <h1>GNRE WebService</h1>
+            <div class="bloco_requisicao">
+                <p id="request_status" class="request_status">Pronto</p>
+                <h4>Número do Lote para consulta</h4>
+                <input type="text" value="" id="campo_request_lote">
+                <button onclick="ConsultaLote()">Consultar lote</button>
+                <hr>
+                <h4>Conteúdo do XML</h4>
+                <textarea id="campo_send_lote"></textarea>
+                <button onclick="ParseXML()">Parsear XML e solicitar Guia</button>
+    
+            </div>
+            
+            <div class="bloco_resposta" id="bloco_resposta"></div>
+        </div>
+	</body>
+</html>
+
